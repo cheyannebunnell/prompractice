@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prom & Formalwear Brand Popularity by State</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://d3js.org/topojson.v3.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  #tooltip {
+    position: absolute;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    pointer-events: none;
+    font-size: 14px;
+    display: none;
+  }
+  svg {
+    display: block;
+    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+  }
+  #detailsBox {
+    max-width: 600px;
+    margin: 25px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  }
+  #detailsBox h2 {
+    margin-top: 0;
+  }
+</style>
+</head>
+
+<body>
+<h1>Most Popular Prom & Formalwear Brands by U.S. State</h1>
+<div id="tooltip"></div>
+<div id="detailsBox">
+  <h2>Click a state to view brand sales</h2>
+  <p>Select a state on the map to see prom/formalwear brand performance.</p>
+</div>
+
+<script>
+// -----------------------------------------------------
+// 1. BRAND SALES DATA (placeholder values)
+// Replace these with real numbers when available.
+// -----------------------------------------------------
+const brandData = {
+  "California": {
+    "Sherri Hill": 1200000,
+    "Jovani": 950000,
+    "Amarra": 870000,
+    "Portia & Scarlett": 760000
+  },
+  "Texas": {
+    "Sherri Hill": 1500000,
+    "Jovani": 1100000,
+    "Amarra": 980000,
+    "Portia & Scarlett": 820000
+  },
+  "Florida": {
+    "Sherri Hill": 900000,
+    "Jovani": 880000,
+    "Amarra": 760000,
+    "Portia & Scarlett": 650000
+  },
+  "New York": {
+    "Sherri Hill": 1000000,
+    "Jovani": 1200000,
+    "Amarra": 700000,
+    "Portia & Scarlett": 600000
+  }
+  // Add all states as needed
+};
+
+// -----------------------------------------------------
+// 2. SVG MAP SETUP
+// -----------------------------------------------------
+const width = 1000;
+const height = 600;
+
+const svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+const tooltip = d3.select("#tooltip");
+
+// -----------------------------------------------------
+// 3. LOAD U.S. MAP
+// -----------------------------------------------------
+d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
+
+  const states = topojson.feature(us, us.objects.states).features;
+
+  const projection = d3.geoAlbersUsa()
+    .translate([width/2, height/2])
+    .scale(1200);
+
+  const path = d3.geoPath().projection(projection);
+
+  svg.selectAll("path")
+    .data(states)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .attr("fill", "#9bbad1")
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 1)
+    .on("mouseover", function(event, d) {
+      tooltip.style("display", "block")
+        .html(`<strong>${d.properties.name}</strong>`);
+    })
+    .on("mousemove", function(event) {
+      tooltip.style("left", (event.pageX + 15) + "px")
+             .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", function() {
+      tooltip.style("display", "none");
+    })
+    .on("click", function(event, d) {
+      const state = d.properties.name;
+      const detailsBox = document.getElementById("detailsBox");
+
+      if (brandData[state]) {
+        let html = `<h2>${state} — Brand Sales</h2><ul>`;
+        for (const brand in brandData[state]) {
+          html += `<li><strong>${brand}:</strong> $${brandData[state][brand].toLocaleString()}</li>`;
+        }
+        html += "</ul>";
+        detailsBox.innerHTML = html;
+      } else {
+        detailsBox.innerHTML = `<h2>${state}</h2><p>No data available for this state.</p>`;
+      }
+    });
+
+});
+</script>
+
+</body>
+</html>
