@@ -41,8 +41,29 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
   }
-  #detailsBox h2 {
-    margin-top: 0;
+  #guestBox {
+    max-width: 600px;
+    margin: 25px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    background: #4c6fff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
   }
 </style>
 </head>
@@ -50,15 +71,24 @@
 <body>
 <h1>Most Popular Prom & Formalwear Brands by U.S. State</h1>
 <div id="tooltip"></div>
+
 <div id="detailsBox">
   <h2>Click a state to view brand sales</h2>
   <p>Select a state on the map to see prom/formalwear brand performance.</p>
 </div>
 
+<div id="guestBox">
+  <h2>Ask About a Brand Not Listed</h2>
+  <p>Have a brand you want included? Submit it below.</p>
+  <input id="guestBrand" placeholder="Brand name (e.g., Rachel Allan)">
+  <textarea id="guestMessage" rows="4" placeholder="Your question or request"></textarea>
+  <button onclick="submitGuestRequest()">Submit Request</button>
+  <p id="guestResponse" style="margin-top:10px; font-weight:bold;"></p>
+</div>
+
 <script>
 // -----------------------------------------------------
 // 1. BRAND SALES DATA — ALL 50 STATES
-// Placeholder values (replace with real data anytime)
 // -----------------------------------------------------
 const brandData = {
   "Alabama": {"Sherri Hill": 300000, "Jovani": 250000, "Amarra": 200000, "Portia & Scarlett": 180000},
@@ -114,7 +144,40 @@ const brandData = {
 };
 
 // -----------------------------------------------------
-// 2. SVG MAP SETUP
+// 2. GUEST BRAND REQUEST SECTION
+// -----------------------------------------------------
+function submitGuestRequest() {
+  const brand = document.getElementById("guestBrand").value.trim();
+  const message = document.getElementById("guestMessage").value.trim();
+  const response = document.getElementById("guestResponse");
+
+  if (!brand || !message) {
+    response.textContent = "Please fill out both fields.";
+    response.style.color = "red";
+    return;
+  }
+
+  response.textContent = `Thanks! Your request about "${brand}" has been received.`;
+  response.style.color = "green";
+
+  document.getElementById("guestBrand").value = "";
+  document.getElementById("guestMessage").value = "";
+}
+
+// -----------------------------------------------------
+// 3. MAP COLOR SCALE BASED ON AVERAGE SALES
+// -----------------------------------------------------
+function averageSales(stateData) {
+  const values = Object.values(stateData);
+  return values.reduce((a, b) => a + b, 0) / values.length;
+}
+
+const colorScale = d3.scaleLinear()
+  .domain([50000, 1500000]) // min → max average sales
+  .range(["#cfe2f3", "#08306b"]); // light → dark blue
+
+// -----------------------------------------------------
+// 4. SVG MAP SETUP
 // -----------------------------------------------------
 const width = 1000;
 const height = 600;
@@ -127,7 +190,7 @@ const svg = d3.select("body")
 const tooltip = d3.select("#tooltip");
 
 // -----------------------------------------------------
-// 3. LOAD U.S. MAP
+// 5. LOAD U.S. MAP
 // -----------------------------------------------------
 d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
 
@@ -144,7 +207,12 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("fill", "#9bbad1")
+    .attr("fill", d => {
+      const stateName = d.properties.name;
+      return brandData[stateName]
+        ? colorScale(averageSales(brandData[stateName]))
+        : "#ccc";
+    })
     .attr("stroke", "#fff")
     .attr("stroke-width", 1)
     .on("mouseover", function(event, d) {
