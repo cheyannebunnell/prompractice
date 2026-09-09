@@ -57,35 +57,60 @@
 
 <script>
 // -----------------------------------------------------
-// 1. BRAND SALES DATA (placeholder values)
-// Replace these with real numbers when available.
+// 1. BRAND SALES DATA — ALL 50 STATES
+// Placeholder values (replace with real data anytime)
 // -----------------------------------------------------
 const brandData = {
-  "California": {
-    "Sherri Hill": 1200000,
-    "Jovani": 950000,
-    "Amarra": 870000,
-    "Portia & Scarlett": 760000
-  },
-  "Texas": {
-    "Sherri Hill": 1500000,
-    "Jovani": 1100000,
-    "Amarra": 980000,
-    "Portia & Scarlett": 820000
-  },
-  "Florida": {
-    "Sherri Hill": 900000,
-    "Jovani": 880000,
-    "Amarra": 760000,
-    "Portia & Scarlett": 650000
-  },
-  "New York": {
-    "Sherri Hill": 1000000,
-    "Jovani": 1200000,
-    "Amarra": 700000,
-    "Portia & Scarlett": 600000
-  }
-  // Add all states as needed
+  "Alabama": {"Sherri Hill": 300000, "Jovani": 250000, "Amarra": 200000, "Portia & Scarlett": 180000},
+  "Alaska": {"Sherri Hill": 80000, "Jovani": 60000, "Amarra": 50000, "Portia & Scarlett": 40000},
+  "Arizona": {"Sherri Hill": 350000, "Jovani": 300000, "Amarra": 260000, "Portia & Scarlett": 220000},
+  "Arkansas": {"Sherri Hill": 200000, "Jovani": 180000, "Amarra": 150000, "Portia & Scarlett": 130000},
+  "California": {"Sherri Hill": 1200000, "Jovani": 950000, "Amarra": 870000, "Portia & Scarlett": 760000},
+  "Colorado": {"Sherri Hill": 320000, "Jovani": 280000, "Amarra": 240000, "Portia & Scarlett": 210000},
+  "Connecticut": {"Sherri Hill": 260000, "Jovani": 230000, "Amarra": 200000, "Portia & Scarlett": 180000},
+  "Delaware": {"Sherri Hill": 120000, "Jovani": 100000, "Amarra": 90000, "Portia & Scarlett": 80000},
+  "Florida": {"Sherri Hill": 900000, "Jovani": 880000, "Amarra": 760000, "Portia & Scarlett": 650000},
+  "Georgia": {"Sherri Hill": 500000, "Jovani": 450000, "Amarra": 400000, "Portia & Scarlett": 350000},
+  "Hawaii": {"Sherri Hill": 90000, "Jovani": 80000, "Amarra": 70000, "Portia & Scarlett": 60000},
+  "Idaho": {"Sherri Hill": 150000, "Jovani": 130000, "Amarra": 110000, "Portia & Scarlett": 100000},
+  "Illinois": {"Sherri Hill": 600000, "Jovani": 550000, "Amarra": 500000, "Portia & Scarlett": 450000},
+  "Indiana": {"Sherri Hill": 300000, "Jovani": 270000, "Amarra": 240000, "Portia & Scarlett": 220000},
+  "Iowa": {"Sherri Hill": 180000, "Jovani": 160000, "Amarra": 140000, "Portia & Scarlett": 120000},
+  "Kansas": {"Sherri Hill": 170000, "Jovani": 150000, "Amarra": 130000, "Portia & Scarlett": 110000},
+  "Kentucky": {"Sherri Hill": 250000, "Jovani": 230000, "Amarra": 200000, "Portia & Scarlett": 180000},
+  "Louisiana": {"Sherri Hill": 280000, "Jovani": 250000, "Amarra": 220000, "Portia & Scarlett": 200000},
+  "Maine": {"Sherri Hill": 100000, "Jovani": 90000, "Amarra": 80000, "Portia & Scarlett": 70000},
+  "Maryland": {"Sherri Hill": 350000, "Jovani": 320000, "Amarra": 290000, "Portia & Scarlett": 260000},
+  "Massachusetts": {"Sherri Hill": 400000, "Jovani": 360000, "Amarra": 330000, "Portia & Scarlett": 300000},
+  "Michigan": {"Sherri Hill": 450000, "Jovani": 420000, "Amarra": 380000, "Portia & Scarlett": 350000},
+  "Minnesota": {"Sherri Hill": 300000, "Jovani": 280000, "Amarra": 250000, "Portia & Scarlett": 230000},
+  "Mississippi": {"Sherri Hill": 160000, "Jovani": 140000, "Amarra": 120000, "Portia & Scarlett": 110000},
+  "Missouri": {"Sherri Hill": 310000, "Jovani": 280000, "Amarra": 250000, "Portia & Scarlett": 230000},
+  "Montana": {"Sherri Hill": 90000, "Jovani": 80000, "Amarra": 70000, "Portia & Scarlett": 60000},
+  "Nebraska": {"Sherri Hill": 140000, "Jovani": 130000, "Amarra": 120000, "Portia & Scarlett": 110000},
+  "Nevada": {"Sherri Hill": 220000, "Jovani": 200000, "Amarra": 180000, "Portia & Scarlett": 160000},
+  "New Hampshire": {"Sherri Hill": 110000, "Jovani": 100000, "Amarra": 90000, "Portia & Scarlett": 80000},
+  "New Jersey": {"Sherri Hill": 500000, "Jovani": 480000, "Amarra": 450000, "Portia & Scarlett": 420000},
+  "New Mexico": {"Sherri Hill": 130000, "Jovani": 120000, "Amarra": 110000, "Portia & Scarlett": 100000},
+  "New York": {"Sherri Hill": 1000000, "Jovani": 1200000, "Amarra": 700000, "Portia & Scarlett": 600000},
+  "North Carolina": {"Sherri Hill": 420000, "Jovani": 390000, "Amarra": 360000, "Portia & Scarlett": 330000},
+  "North Dakota": {"Sherri Hill": 80000, "Jovani": 70000, "Amarra": 60000, "Portia & Scarlett": 50000},
+  "Ohio": {"Sherri Hill": 480000, "Jovani": 450000, "Amarra": 420000, "Portia & Scarlett": 390000},
+  "Oklahoma": {"Sherri Hill": 210000, "Jovani": 190000, "Amarra": 170000, "Portia & Scarlett": 150000},
+  "Oregon": {"Sherri Hill": 200000, "Jovani": 180000, "Amarra": 160000, "Portia & Scarlett": 140000},
+  "Pennsylvania": {"Sherri Hill": 550000, "Jovani": 520000, "Amarra": 480000, "Portia & Scarlett": 450000},
+  "Rhode Island": {"Sherri Hill": 90000, "Jovani": 80000, "Amarra": 70000, "Portia & Scarlett": 60000},
+  "South Carolina": {"Sherri Hill": 260000, "Jovani": 240000, "Amarra": 220000, "Portia & Scarlett": 200000},
+  "South Dakota": {"Sherri Hill": 85000, "Jovani": 75000, "Amarra": 65000, "Portia & Scarlett": 55000},
+  "Tennessee": {"Sherri Hill": 330000, "Jovani": 300000, "Amarra": 270000, "Portia & Scarlett": 240000},
+  "Texas": {"Sherri Hill": 1500000, "Jovani": 1100000, "Amarra": 980000, "Portia & Scarlett": 820000},
+  "Utah": {"Sherri Hill": 180000, "Jovani": 160000, "Amarra": 140000, "Portia & Scarlett": 120000},
+  "Vermont": {"Sherri Hill": 70000, "Jovani": 60000, "Amarra": 50000, "Portia & Scarlett": 45000},
+  "Virginia": {"Sherri Hill": 380000, "Jovani": 350000, "Amarra": 320000, "Portia & Scarlett": 300000},
+  "Washington": {"Sherri Hill": 300000, "Jovani": 280000, "Amarra": 260000, "Portia & Scarlett": 240000},
+  "West Virginia": {"Sherri Hill": 120000, "Jovani": 110000, "Amarra": 100000, "Portia & Scarlett": 90000},
+  "Wisconsin": {"Sherri Hill": 280000, "Jovani": 260000, "Amarra": 240000, "Portia & Scarlett": 220000},
+  "Wyoming": {"Sherri Hill": 60000, "Jovani": 50000, "Amarra": 45000, "Portia & Scarlett": 40000}
 };
 
 // -----------------------------------------------------
