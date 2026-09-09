@@ -157,13 +157,26 @@ function submitGuestRequest() {
     return;
   }
 
-  response.textContent = `Thanks! Your request about "${brand}" has been received.`;
+  const payload = {
+    type: "guestRequest",
+    brandName: brand,
+    message: message
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbzJ87f87Jp06Jnx5-7CsXr2T8S2M_YBK_cX8g33PDr0Lvgv7UgX151YaQ8Itel6QRhT/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  response.textContent = `Thanks! Your request about "${brand}" has been sent.`;
   response.style.color = "green";
 
   document.getElementById("guestBrand").value = "";
   document.getElementById("guestMessage").value = "";
 }
-
+  
 // -----------------------------------------------------
 // 3. MAP COLOR SCALE BASED ON AVERAGE SALES
 // -----------------------------------------------------
